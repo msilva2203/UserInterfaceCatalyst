@@ -3,14 +3,30 @@
 
 #include "UserWidgets/BaseInputWidget.h"
 
+bool UBaseInputWidget::NativeOnAnyKeyPressed(const FKey& Key)
+{
+	if (OnAnyKeyPressed(Key)) return true;
+
+	return false;
+}
+
 void UBaseInputWidget::NativeOnDirectionInput(EMenuNavigationType Type, int32 Value)
 {
+	if (IsInputBlocked()) return;
+
 	OnDirectionInput(Type, Value);
 }
 
 void UBaseInputWidget::NativeOnActionInput(EMenuAction Action, uint8 Custom)
 {
+	if (IsInputBlocked()) return;
+
 	OnActionInput(Action, Custom);
+}
+
+bool UBaseInputWidget::OnAnyKeyPressed_Implementation(const FKey& Key)
+{
+	return false;
 }
 
 void UBaseInputWidget::AddDirectionInput(EMenuNavigationType Type, int32 Value)
@@ -42,6 +58,16 @@ bool UBaseInputWidget::RemoveCustomAction(const FMenuCustomAction& NewAction)
 		Index++;
 	}
 	return false;
+}
+
+void UBaseInputWidget::SetInputBlocked(bool bNewValue)
+{
+	bIsInputBlocked = bNewValue;
+}
+
+bool UBaseInputWidget::IsInputBlocked()
+{
+	return bIsInputBlocked;
 }
 
 bool UBaseInputWidget::GetCustomActionValue(const FKeyEvent& KeyEvent, uint8& OutValue)

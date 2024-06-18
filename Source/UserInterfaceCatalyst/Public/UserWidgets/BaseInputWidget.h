@@ -47,8 +47,13 @@ class USERINTERFACECATALYST_API UBaseInputWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	virtual bool NativeOnAnyKeyPressed(const FKey& Key);
 	virtual void NativeOnDirectionInput(EMenuNavigationType Type, int32 Value);
 	virtual void NativeOnActionInput(EMenuAction Action, uint8 Custom = 0);
+
+	UFUNCTION(BlueprintNativeEvent, Category = "Input Widget")
+	bool OnAnyKeyPressed(const FKey& Key);
+	bool OnAnyKeyPressed_Implementation(const FKey& Key);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Input Widget")
 	void OnDirectionInput(EMenuNavigationType Type, int32 Value);
@@ -68,10 +73,19 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Input Widget")
 	bool RemoveCustomAction(const FMenuCustomAction& NewAction);
 
+	UFUNCTION(BlueprintCallable, Category = "Input Widget")
+	void SetInputBlocked(bool bNewValue);
+
+	UFUNCTION(BlueprintPure, Category = "Input Widget")
+	bool IsInputBlocked();
+
 	bool GetCustomActionValue(const FKeyEvent& KeyEvent, uint8& OutValue);
 
 private:
 	UPROPERTY()
 	TArray<FMenuCustomAction> CustomActions;
+
+	UPROPERTY()
+	bool bIsInputBlocked;
 
 };
