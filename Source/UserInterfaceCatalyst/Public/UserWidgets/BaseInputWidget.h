@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "UserWidgets/CatalystWidget.h"
 #include "BaseInputWidget.generated.h"
 
 
@@ -42,7 +42,7 @@ struct FMenuCustomAction
  * 
  */
 UCLASS()
-class USERINTERFACECATALYST_API UBaseInputWidget : public UUserWidget
+class USERINTERFACECATALYST_API UBaseInputWidget : public UCatalystWidget
 {
 	GENERATED_BODY()
 	
